@@ -15,6 +15,10 @@ class MainViewModel(application: Application): AndroidViewModel(application), Ko
     val isNumberOdd: LiveData<NumberState>
         get() = _isNumberOdd
 
+    private val _numberValue = MutableLiveData<Int>()
+    val numberValue: LiveData<Int>
+        get() = _numberValue
+
     fun addNumber() {
         _isNumberOdd.postValue(NumberState.LOADING)
         Handler().postDelayed({
@@ -24,6 +28,7 @@ class MainViewModel(application: Application): AndroidViewModel(application), Ko
             } else {
                 _isNumberOdd.postValue(NumberState.ERROR)
             }
+            _numberValue.postValue(number)
         }, 2000)
 
     }

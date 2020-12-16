@@ -25,19 +25,13 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
-        fetchCurrentNumber()
         setupViewModelObservers()
     }
 
     private fun setupListeners() {
         button_add.setOnClickListener {
             mainViewModel.addNumber()
-            fetchCurrentNumber()
         }
-    }
-
-    private fun fetchCurrentNumber() {
-        button_add.text = mainViewModel.number.toString()
     }
 
     private fun setupViewModelObservers() {
@@ -54,6 +48,11 @@ class MainFragment : Fragment() {
                     setViewLoadingState()
                 }
             }
+        })
+
+        mainViewModel.numberValue.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            textView_contagem.text = mainViewModel.number.toString()
         })
     }
 
